@@ -145,4 +145,13 @@ def get_expense(id):
 @expenses_bp.route('/<int:id>',methods=['DELETE'])
 @jwt_required()
 def delete_expense(id):
-    pass
+    expense = Expense.query.get(id)
+    
+
+    if not expense:
+        return jsonify({'message':'Expense not found'}),404
+    db.session.delete(expense)
+    db.session.commit()
+    return jsonify({'message':'Expense deleted'}),201
+
+    
